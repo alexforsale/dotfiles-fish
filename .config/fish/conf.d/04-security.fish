@@ -30,7 +30,7 @@ switch $DISTRO
             end
         end
     case '*'
-        if [ -z $(pgrep -u $USER -x gpg-agent) ]
+        if [ -z "$(pgrep -u $USER -x gpg-agent)" ]
             gpg-agent --pinentry-program $(command -v pinentry) &>/dev/null
         end
 end
