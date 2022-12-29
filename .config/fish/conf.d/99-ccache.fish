@@ -3,10 +3,10 @@
 # ccache configuration
 # <alexforsale@yahoo.com>
 
-if [ $(command -v ccache) ] &&
+if [ (command -v ccache) ] &&
         [ -d /usr/lib/ccache/bin ]
     if [ $SHELL != /bin/sh ] &&
-            [ $(command -v pathprepend) ]
+            [ (command -v pathprepend) ]
         pathprepend /usr/lib/ccache/bin
     else
         set -x PATH /usr/lib/ccache/bin $PATH

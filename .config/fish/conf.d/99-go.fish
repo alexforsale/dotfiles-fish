@@ -3,7 +3,7 @@
 # $GOPATH configuration
 # <alexforsale@yahoo.com>
 
-if [ $(command -v go) ]
+if [ (command -v go) ]
     # set GOPATH to ~/.local so we don't need
     # to add more PATH
     set -x GOPATH $GOPATH

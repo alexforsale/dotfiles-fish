@@ -4,7 +4,7 @@
 # <alexforsale@yahoo.com>
 
 for file in ranger pcmanfm thunar caja nautilus nemo dolphin rox
-    if [ $(command -v $file) ]
+    if [ (command -v $file) ]
         [ -z $FILE ] && set -e FILE $file
     end
 end

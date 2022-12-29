@@ -4,7 +4,7 @@
 # <alexforsale@yahoo.com>
 
 for mail_app in alpine balsa evolution geary kmail kube mailspring thunderbird
-    if [ $(command -v $mail_app) ]
+    if [ (command -v $mail_app) ]
         [ -z $MAIL_APP ] && set -x MAIL_APP $mail_app
     end
 end

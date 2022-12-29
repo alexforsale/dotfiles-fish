@@ -3,7 +3,7 @@
 # configuration for GNU Screen
 # <alexforsale@yahoo.com>
 
-if [ $(command -v screen) ] &&
+if [ (command -v screen) ] &&
         [ ! -d $XDG_CONFIG_HOME/screen ]
     if [ -d $HOME/.screen ]
         mv $HOME/.screen $XDG_CONFIG_HOME/screen

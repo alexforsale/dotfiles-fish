@@ -4,6 +4,6 @@
 # see https://wiki.archlinux.org/index.php/Node.js
 # <alexforsale@yahoo.com>
 
-if [ $(command -v npm) ]
+if [ (command -v npm) ]
     set -x npm_config_prefix "$HOME/.local"
 end

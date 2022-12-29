@@ -3,11 +3,11 @@
 # doom emacs path
 # <alexforsale@yahoo.com>
 
-if [ $(command -v emacs) ] &&
+if [ (command -v emacs) ] &&
         [ -e $HOME/.emacs.d/bin/doom ]
-    [ ! $(command -v doom) ] &&
+    [ ! (command -v doom) ] &&
         set -x PATH $PATH $HOME/.emacs.d/bin
 else if [ -d $HOME/.config/doom/bin ]
-    [ ! $(command -v doom) ]
+    [ ! (command -v doom) ]
     set -x PATH $PATH $HOME/.config/doom/bin
 end

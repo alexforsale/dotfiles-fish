@@ -3,7 +3,7 @@
 # configuration for elinks
 # <alexforsale@yahoo.com>
 
-if [ $(command -v elinks) ] &&
+if [ (command -v elinks) ] &&
         [ -d $XDG_CONFIG_HOME/elinks ] &&
         [ -d $HOME/.elinks ]
     mv $HOME/.elinks $XDG_CONFIG_HOME/elinks
