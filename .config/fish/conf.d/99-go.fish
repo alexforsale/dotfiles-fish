@@ -6,5 +6,5 @@
 if [ (command -v go) ]
     # set GOPATH to ~/.local so we don't need
     # to add more PATH
-    set -x GOPATH $GOPATH
+    set -x GOPATH $HOME/.local
 end
