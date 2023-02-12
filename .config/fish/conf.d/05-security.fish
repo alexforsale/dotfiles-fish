@@ -1,9 +1,7 @@
 #!/usr/bin/env fish
 
 
-if [ -z $GPG_TTY ]
-    set -x GPG_TTY (tty)
-end
+set -x GPG_TTY (tty)
 
 # https://wiki.gentoo.org/wiki/GnuPG#Automatically_starting_the_GPG_agent
 if [ -n $SSH_CONNECTION ]
