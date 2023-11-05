@@ -4,6 +4,7 @@ if status is-interactive
 
     # completions
     for dir in /usr/share/fish/completions \
+        /usr/share/fish/vendor_completions.d/ \
         /usr/local/share/fish/completions \
         ~/.config/fish/completions
 
