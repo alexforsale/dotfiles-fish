@@ -13,3 +13,10 @@ if status is-interactive
         end
     end
 end
+
+# from https://wiki.archlinux.org/title/fish
+# source /etc/profile with bash
+if status is-login
+    exec bash -c "test -e /etc/profile && source /etc/profile;\
+    exec fish"
+end
