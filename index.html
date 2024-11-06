@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-11-06 Wed 02:58 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>index</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Kristian Alexander P" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">index</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5b76afa">~/.config/fish/config.fish</a>
+<ul>
+<li><a href="#orgccf1626">interactive settings</a></li>
+<li><a href="#org83c5e7b">Login shell</a></li>
+</ul>
+</li>
+<li><a href="#orgb2690ad">~/config/fish/conf.d</a>
+<ul>
+<li><a href="#orgbf3d413">00-distro.fish</a></li>
+<li><a href="#orgf709d37">00-locale.fish</a></li>
+<li><a href="#org0451391">01-xdg_base_directory.fish</a></li>
+<li><a href="#org9a73cd7">02-editors.fish</a></li>
+<li><a href="#orgf3251c8">03-nix.fish</a></li>
+<li><a href="#org3e1f5f4">04-terminals.fish</a></li>
+<li><a href="#org9722316">05-filemanagers.fish</a></li>
+<li><a href="#orgf85d386">06-security.fish</a></li>
+<li><a href="#org77e50d8">07-browsers.fish</a></li>
+<li><a href="#org2d6e0b1">08-mail_apps.fish</a></li>
+<li><a href="#orgbb190c3">99-nord-theme.fish</a></li>
+<li><a href="#org1f6c346">99-doom_emacs.fish</a></li>
+<li><a href="#org3e3ae02">99-composer.fish</a></li>
+<li><a href="#org52cc57f">99-screen.fish</a></li>
+<li><a href="#orge4016d1">99-fsharp.fish</a></li>
+<li><a href="#orgf55ee3b">99-elinks.fish</a></li>
+<li><a href="#org3501735">99-ccache.fish</a></li>
+<li><a href="#org728c21a">99-ghcup.fish</a></li>
+<li><a href="#org314bba2">99-cargo.fish</a></li>
+<li><a href="#org0dddf8c">99-ruby.fish</a></li>
+<li><a href="#orgf5d18bc">99-go.fish</a></li>
+<li><a href="#orgafb4a6b">99-virtualenvwrapper.fish</a></li>
+<li><a href="#orgccc3cdf">99-python.fish</a></li>
+<li><a href="#org6dfe1c2">99-nano.fish</a></li>
+<li><a href="#orgee32ddf">99-emacs_vterm.fish</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This is my <i>Fish</i> shell configuration, as always, nothing fancy.
+</p>
+<div id="outline-container-org5b76afa" class="outline-2">
+<h2 id="org5b76afa">~/.config/fish/config.fish</h2>
+<div class="outline-text-2" id="text-org5b76afa">
+<p>
+From all the shells I've used, this is the most recent. And it is intentionally not fully POSIX compliant, meaning porting POSIX compliant script may require significant rewrite.
+</p>
+
+<p>
+As for now, just to conditionals for when called as a login shell or when called interactively. Most people used <i>fish</i> as an interactive shell only, meaning the default shell (usually <i>bash</i>) is still used for initializing. But when I used <i>fish</i> I set it up as my default shell (using <i>chsh</i>).
+</p>
+
+<p>
+to check if you're in interactive or login shell, just run the following snippet:
+</p>
+<div class="org-src-container">
+<pre class="src src-fish">status --is-interactive || echo $status
+</pre>
+</div>
+
+<p>
+and check its output
+</p>
+</div>
+<div id="outline-container-orgccf1626" class="outline-3">
+<h3 id="orgccf1626">interactive settings</h3>
+<div class="outline-text-3" id="text-orgccf1626">
+<div class="org-src-container">
+<pre class="src src-fish">if status is-interactive
+    # Commands to run in interactive sessions can go here
+    [ -d "$HOME/.local/bin" ] &amp;&amp; set -x PATH $HOME/.local/bin $PATH
+
+    # completions
+    for dir in /usr/share/fish/completions \
+	/usr/share/fish/vendor_completions.d \
+	/usr/local/share/fish/completions \
+	~/.config/fish/completions
+	if [ -d "$dir" ]
+	    for files in "$dir/*"
+		[ -f $files ] &amp;&amp; source $files
+	    end
+	end
+    end
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org83c5e7b" class="outline-3">
+<h3 id="org83c5e7b">Login shell</h3>
+<div class="outline-text-3" id="text-org83c5e7b">
+<p>
+This allow us to run <i>fish</i> as a login shell, while still having all the environment variables I would typically have in <i>bash</i><sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.
+</p>
+<div class="org-src-container">
+<pre class="src src-fish"># source /etc/profile with bash
+if status is-login
+    exec bash -c "test -e /etc/profile &amp;&amp; source /etc/profile;\
+    exec fish"
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb2690ad" class="outline-2">
+<h2 id="orgb2690ad">~/config/fish/conf.d</h2>
+<div class="outline-text-2" id="text-orgb2690ad">
+<p>
+Mostly just ports from my <a href="https://alexforsale.github.io/dotfiles-shells/">POSIX shell configuration</a>.
+</p>
+</div>
+<div id="outline-container-orgbf3d413" class="outline-3">
+<h3 id="orgbf3d413">00-distro.fish</h3>
+<div class="outline-text-3" id="text-orgbf3d413">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/00-distro.fish
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ -f /etc/os-release ]
+    # freedesktop.org and systemd
+    set -x DISTRO (grep '^ID=' /etc/os-release| sed 's/^ID=//')
+    set -x DISTROVER (grep '^VERSION_ID' /etc/os-release| sed 's/^ID=//')
+else if [ (command -v lsb_release &gt;/dev/null) ]
+    # linuxbase.org
+    set -x DISTRO (lsb_release -si | awk '{print tolower ($0)}')
+    set -x DISTROVER (lsb_release -sr | awk '{print tolower ($0)}')
+else if [ -f /etc/lsb-release ]
+    # For some versions of Debian/Ubuntu without lsb_release command
+    set -x DISTRO (grep '^ID' /etc/lsb-release| sed 's/^DISTRIB_ID=//')
+    set -x DISTROVER (grep '^VERSION_ID' /etc/lsb-release| sed 's/^DISTRIB_RELEASE=//')
+else if [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    set -x DISTRO Debian
+    set -x DISTROVER (cat /etc/debian_version)
+else
+    set -x DISTRO (uname -s)
+    set -x DISTROVER (uname -r)
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf709d37" class="outline-3">
+<h3 id="orgf709d37">00-locale.fish</h3>
+<div class="outline-text-3" id="text-orgf709d37">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/00-locale.fish
+# &lt;alexforsale@yahoo.com&gt;
+
+set -x LANG en_US.UTF-8
+
+if [ -z $MM_CHARSET ]
+  set -x MM_CHARSET $LANG
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0451391" class="outline-3">
+<h3 id="org0451391">01-xdg_base_directory.fish</h3>
+<div class="outline-text-3" id="text-org0451391">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/01-xdg_base_directory.fish
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ -z $XDG_CONFIG_HOME ]
+    if [ -d $HOME/.config ]
+	mkdir -p $HOME/.config
+    end
+    set -x XDG_CONFIG_HOME $HOME/.config
+end
+
+if [ -z $XDG_CACHE_HOME ]
+    if [ -d $HOME/.cache ]
+	mkdir -p $HOME/.cache
+    end
+    set -x XDG_CACHE_HOME $HOME/.cache
+end
+
+if [ -z $XDG_DATA_HOME ]
+    if [ -d $HOME/.local/share ]
+	mkdir -p $HOME/.local/share
+    end
+    set -x XDG_DATA_HOME $HOME/.local/share
+end
+
+if [ -z $XDG_DESKTOP_DIR ]
+    set -x XDG_DESKTOP_DIR $HOME/Desktop
+    mkdir -p $XDG_DESKTOP_DIR
+end
+if [ -z $XDG_DOWNLOAD_DIR ]
+    set -x XDG_DOWNLOAD_DIR $HOME/Downloads
+    mkdir -p $XDG_DOWNLOAD_DIR
+end
+if [ -z $XDG_TEMPLATES_DIR ]
+    set -x XDG_TEMPLATES_DIR $HOME/Templates
+    mkdir -p $XDG_TEMPLATES_DIR
+end
+if [ -z $XDG_PUBLICSHARE_DIR ]
+    set -x XDG_PUBLICSHARE_DIR $HOME/Public
+    mkdir -p $XDG_PUBLICSHARE_DIR
+end
+if [ -z $XDG_DOCUMENTS_DIR ]
+    set -x XDG_DOCUMENTS_DIR $HOME/Documents
+    mkdir -p $XDG_DOCUMENTS_DIR
+end
+if [ -z $XDG_MUSIC_DIR ]
+    set -x XDG_MUSIC_DIR $HOME/Music
+    mkdir -p $XDG_MUSIC_DIR
+end
+if [ -z $XDG_PICTURES_DIR ]
+    set -x XDG_PICTURES_DIR $HOME/Pictures
+    mkdir -p $XDG_PICTURES_DIR
+end
+if [ -z $XDG_VIDEOS_DIR ]
+    set -x XDG_VIDEOS_DIR $HOME/Videos
+    mkdir -p $XDG_VIDEOS_DIR
+end
+
+if [ -n $GUIX_LOCPATH ] || [ $DISTRO = "guix" ]
+    if [ -d $HOME/.nix-profile/share ]
+	set -x XDG_DATA_DIRS "$XDG_DATA_DIRS:$HOME/.nix-profile/share"
+    end
+end
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9a73cd7" class="outline-3">
+<h3 id="org9a73cd7">02-editors.fish</h3>
+<div class="outline-text-3" id="text-org9a73cd7">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/03-nix.fish
+# from https://github.com/lilyball/nix-env.fish/blob/master/conf.d/nix-env.fish
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ -f $HOME/.config/chemacs/profile ] &amp;&amp;
+	[ -z $CHEMACS_PROFILE ]
+    set -x CHEMACS_PROFILE (cat $HOME/.config/chemacs/profile)
+else if [ -f $HOME/emacs-profile ]
+    set -x CHEMACS_PROFILE (cat $HOME/.emacs-profile)
+end
+
+if [ -n $CHEMACS_PROFILE ]
+    set emacs_args "-s $CHEMACS_PROFILE"
+end
+
+if [ (command -v emacs) ]
+    if [ -z $VISUAL ]
+	set -x VISUAL "emacsclient -t $emacs_args -a ''"
+    end
+    if [ -z $EDITOR ]
+	set -x EDITOR "emacsclient -c $emacs_args -a ''"
+    end
+    set -x ALTERNATE_EDITOR $VISUAL
+else if [ (command -v gvim) ]
+    if [ -z $EDITOR ]
+	set -x EDITOR gvim
+    end
+    if [ -z $VISUAL ]
+    end
+else
+    for editor in nvim leafpad l3afpad kate pluma kwrite scribe geany gedit code vi
+	if [ (command -v $editor ) ]
+	    [ -z $EDITOR ] &amp;&amp; set -x EDITOR $editor
+	end
+	set -x VISUAL $EDITOR
+	set -x ALTERNATE_EDITOR $EDITOR
+    end
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf3251c8" class="outline-3">
+<h3 id="orgf3251c8">03-nix.fish</h3>
+<div class="outline-text-3" id="text-orgf3251c8">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/03-nix.fish
+# from https://github.com/lilyball/nix-env.fish/blob/master/conf.d/nix-env.fish
+# &lt;alexforsale@yahoo.com&gt;
+
+set -l nix_profile_path /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+set -l single_user_profile_path ~/.nix-profile/etc/profile.d/nix.sh
+if test -e $nix_profile_path
+    # The path exists. Double-check that this is a multi-user install.
+    # We can't just check for ~/.nix-profile/… because this may be a single-user install running as
+    # the wrong user.
+
+    # stat is not portable. Splitting the output of ls -nd is reliable on most platforms.
+    set -l owner (string split -n ' ' (command ls -nd /nix/store 2&gt;/dev/null))[3]
+    if not test -k /nix/store -a $owner -eq 0
+	# /nix/store is either not owned by root or not sticky. Assume single-user.
+	set nix_profile_path $single_user_profile_path
+    end
+else
+    # The path doesn't exist. Assume single-user
+    set nix_profile_path $single_user_profile_path
+end
+
+if test -e $nix_profile_path
+    # Source the nix setup script
+    # We're going to run the regular Nix profile under bash and then print out a few variables
+    for line in (command env -u BASH_ENV bash -c '. "$0"; for name in PATH "${!NIX_@}"; do printf "%s=%s\0" "$name" "${!name}"; done' $nix_profile_path | string split0)
+	set -xg (string split -m 1 = $line)
+    end
+
+    # Insert Nix's fish share directories into fish's special variables.
+    # nixpkgs-installed fish tries to set these up already if NIX_PROFILES is defined, which won't
+    # be the case when sourcing $__fish_data_dir/share/config.fish normally, but might be for a
+    # recursive invocation. To guard against that, we'll only insert paths that don't already exit.
+    # Furthermore, for the vendor_conf.d sourcing, we'll use the pre-existing presence of a path in
+    # $fish_function_path to determine whether we want to source the relevant vendor_conf.d folder.
+
+    # To start, let's locally define NIX_PROFILES if it doesn't already exist.
+    set -al NIX_PROFILES
+    if test (count $NIX_PROFILES) -eq 0
+	set -a NIX_PROFILES $HOME/.nix-profile
+    end
+    # Replicate the logic from nixpkgs version of $__fish_data_dir/__fish_build_paths.fish.
+    set -l __nix_profile_paths (string split ' ' -- $NIX_PROFILES)[-1..1]
+    set -l __extra_completionsdir \
+	$__nix_profile_paths/etc/fish/completions \
+	$__nix_profile_paths/share/fish/vendor_completions.d
+    set -l __extra_functionsdir \
+	$__nix_profile_paths/etc/fish/functions \
+	$__nix_profile_paths/share/fish/vendor_functions.d
+    set -l __extra_confdir \
+	$__nix_profile_paths/etc/fish/conf.d \
+	$__nix_profile_paths/share/fish/vendor_conf.d
+    ### Configure fish_function_path ###
+    # Remove any of our extra paths that may already exist.
+    # Record the equivalent __extra_confdir path for any function path that exists.
+    set -l existing_conf_paths
+    for path in $__extra_functionsdir
+	if set -l idx (contains --index -- $path $fish_function_path)
+	    set -e fish_function_path[$idx]
+	    set -a existing_conf_paths $__extra_confdir[(contains --index -- $path $__extra_functionsdir)]
+	end
+    end
+    # Insert the paths before $__fish_data_dir.
+    if set -l idx (contains --index -- $__fish_data_dir/functions $fish_function_path)
+	# Fish has no way to simply insert into the middle of an array.
+	set -l new_path $fish_function_path[1..$idx]
+	set -e new_path[$idx]
+	set -a new_path $__extra_functionsdir
+	set fish_function_path $new_path $fish_function_path[$idx..-1]
+    else
+	set -a fish_function_path $__extra_functionsdir
+    end
+
+    ### Configure fish_complete_path ###
+    # Remove any of our extra paths that may already exist.
+    for path in $__extra_completionsdir
+	if set -l idx (contains --index -- $path $fish_complete_path)
+	    set -e fish_complete_path[$idx]
+	end
+    end
+    # Insert the paths before $__fish_data_dir.
+    if set -l idx (contains --index -- $__fish_data_dir/completions $fish_complete_path)
+	set -l new_path $fish_complete_path[1..$idx]
+	set -e new_path[$idx]
+	set -a new_path $__extra_completionsdir
+	set fish_complete_path $new_path $fish_complete_path[$idx..-1]
+    else
+	set -a fish_complete_path $__extra_completionsdir
+    end
+
+    ### Source conf directories ###
+    # The built-in directories were already sourced during shell initialization.
+    # Any __extra_confdir that came from $__fish_data_dir/__fish_build_paths.fish was also sourced.
+    # As explained above, we're using the presence of pre-existing paths in $fish_function_path as a
+    # signal that the corresponding conf dir has also already been sourced.
+    # In order to simulate this, we'll run through the same algorithm as found in
+    # $__fish_data_dir/config.fish except we'll avoid sourcing the file if it comes from an
+    # already-sourced location.
+    # Caveats:
+    # * Files will be sourced in a different order than we'd ideally do (because we're coming in
+    #   after the fact to source them).
+    # * If there are existing extra conf paths, files in them may have been sourced that should have
+    #   been suppressed by paths we're inserting in front.
+    # * Similarly any files in $__fish_data_dir/vendor_conf.d that should have been suppressed won't
+    #   have been.
+    set -l sourcelist
+    for file in $__fish_config_dir/conf.d/*.fish $__fish_sysconf_dir/conf.d/*.fish
+	# We know these paths were sourced already. Just record them.
+	set -l basename (string replace -r '^.*/' '' -- $file)
+	contains -- $basename $sourcelist
+	or set -a sourcelist $basename
+    end
+    for root in $__extra_confdir
+	for file in $root/*.fish
+	    set -l basename (string replace -r '^.*/' '' -- $file)
+	    contains -- $basename $sourcelist
+	    and continue
+	    set -a sourcelist $basename
+	    contains -- $root $existing_conf_paths
+	    and continue # this is a pre-existing path, it will have been sourced already
+	    [ -f $file -a -r $file ]
+	    and source $file
+	end
+    end
+end
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3e1f5f4" class="outline-3">
+<h3 id="org3e1f5f4">04-terminals.fish</h3>
+<div class="outline-text-3" id="text-org3e1f5f4">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/04-terminals.fish
+# ${TERMINAL} apps
+# &lt;alexforsale@yahoo.com&gt;
+
+for term in alacritty urxvt xterm gnome-terminal terminator tilda guake konsole lxterminal yakuake st terminology xfce4-terminal
+    if [ (command -v $term) ]
+	[ -z $TERMINAL ] &amp;&amp; set -x TERMINAL $term
+    end
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9722316" class="outline-3">
+<h3 id="org9722316">05-filemanagers.fish</h3>
+<div class="outline-text-3" id="text-org9722316">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/05-filemanagers.sh
+# filemanager configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+for file in ranger pcmanfm thunar caja nautilus nemo dolphin rox
+    if [ (command -v $file) ]
+	[ -z $FILE ] &amp;&amp; set -e FILE $file
+    end
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf85d386" class="outline-3">
+<h3 id="orgf85d386">06-security.fish</h3>
+<div class="outline-text-3" id="text-orgf85d386">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/06-security.fish
+# doom emacs path
+# &lt;alexforsale@yahoo.com&gt;
+
+set -x GPG_TTY (tty)
+
+# https://wiki.gentoo.org/wiki/GnuPG#Automatically_starting_the_GPG_agent
+if [ -n $SSH_CONNECTION ]
+    set -x PINENTRY_USER_DATA "USE_CURSES=1"
+end
+
+switch $DISTRO
+    case freebsd
+	for i in curses gnome3 gtk2 qt5
+	    if [ (command -v pinentry-$i) ]
+		set _PINENTRY (command -v pinentry-$i)
+	    else
+		set _PINENTRY (command -v pinentry)
+	    end
+	end
+    case '*'
+	if [ -z "(pgrep -u $USER -x gpg-agent)" ]
+	    gpg-agent --pinentry-program (command -v pinentry) &gt;/dev/null
+	end
+end
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org77e50d8" class="outline-3">
+<h3 id="org77e50d8">07-browsers.fish</h3>
+<div class="outline-text-3" id="text-org77e50d8">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/07-browser.fish
+# ${BROWSER} configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+# Browser
+for browser in firefox google-chrome-stable midori qutebrowser chromium seamonkey falkon
+    if [ (command -v browser) ]
+	[ -z $BROWSER ] &amp;&amp; set -x BROWSER $browser
+    else
+	for term_browser in elinks lynx w3m links
+	    if [ (command -v term_browser) ]
+		[ -z $BROWSER ] &amp;&amp; set -x BROWSER $term_browser
+	    end
+	end
+    end
+end
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2d6e0b1" class="outline-3">
+<h3 id="org2d6e0b1">08-mail_apps.fish</h3>
+<div class="outline-text-3" id="text-org2d6e0b1">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/08-mail_apps.sh
+# ${MAIL_APP} configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+for mail_app in alpine balsa evolution geary kmail kube mailspring thunderbird
+    if [ (command -v $mail_app) ]
+	[ -z $MAIL_APP ] &amp;&amp; set -x MAIL_APP $mail_app
+    end
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbb190c3" class="outline-3">
+<h3 id="orgbb190c3">99-nord-theme.fish</h3>
+<div class="outline-text-3" id="text-orgbb190c3">
+<div class="org-src-container">
+<pre class="src src-fish">#!/usr/bin/env fish
+# ~/.config/fish/conf.d/99-nord-theme.fish
+# Nord Theme for fish shell
+# from https://github.com/nordtheme/nord/issues/102
+# &lt;alexforsale@yahoo.com&gt;
+
+set nord0 2e3440
+set nord1 3b4252
+set nord2 434c5e
+set nord3 4c566a
+set nord4 d8dee9
+set nord5 e5e9f0
+set nord6 eceff4
+set nord7 8fbcbb
+set nord8 88c0d0
+set nord9 81a1c1
+set nord10 5e81ac
+set nord11 bf616a
+set nord12 d08770
+set nord13 ebcb8b
+set nord14 a3be8c
+set nord15 b48ead
+
+set fish_color_normal $nord4
+set fish_color_command $nord9
+set fish_color_quote $nord14
+set fish_color_redirection $nord9
+set fish_color_end $nord6
+set fish_color_error $nord11
+set fish_color_param $nord4
+set fish_color_comment $nord3
+set fish_color_match $nord8
+set fish_color_search_match $nord8
+set fish_color_operator $nord9
+set fish_color_escape $nord13
+set fish_color_cwd $nord8
+set fish_color_autosuggestion $nord6
+set fish_color_user $nord4
+set fish_color_host $nord9
+set fish_color_cancel $nord15
+set fish_pager_color_prefix $nord13
+set fish_pager_color_completion $nord6
+set fish_pager_color_description $nord10
+set fish_pager_color_progress $nord12
+set fish_pager_color_secondary $nord1
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1f6c346" class="outline-3">
+<h3 id="org1f6c346">99-doom_emacs.fish</h3>
+<div class="outline-text-3" id="text-org1f6c346">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-doom_emacs.sh
+# doom emacs path
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ (command -v emacs) ] &amp;&amp;
+	[ -e $HOME/.emacs.d/bin/doom ]
+    [ ! (command -v doom) ] &amp;&amp;
+	set -x PATH $PATH $HOME/.emacs.d/bin
+else if [ -d $HOME/.config/doom/bin ]
+    [ ! (command -v doom) ]
+    set -x PATH $PATH $HOME/.config/doom/bin
+end
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3e3ae02" class="outline-3">
+<h3 id="org3e3ae02">99-composer.fish</h3>
+<div class="outline-text-3" id="text-org3e3ae02">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-composer.fish
+# &lt;alexforsale@yahoo.com&gt;
+
+if command -v composer &amp;&gt;/dev/null and
+    test -d $HOME/.config/composer/vendor/bin
+    set -x PATH $PATH $HOME/.config/composer/vendor/bin
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org52cc57f" class="outline-3">
+<h3 id="org52cc57f">99-screen.fish</h3>
+<div class="outline-text-3" id="text-org52cc57f">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-screen.fish
+# configuration for GNU Screen
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ (command -v screen) ] &amp;&amp;
+	[ ! -d $XDG_CONFIG_HOME/screen ]
+    if [ -d $HOME/.screen ]
+	mv $HOME/.screen $XDG_CONFIG_HOME/screen
+    else
+	mkdir -p $XDG_CONFIG_HOME/screen
+    end
+end
+set -x SCREENDIR $XDG_CONFIG_HOME/screen
+chmod 700 $SCREENDIR
+set -x SCREENRC $SCREENDIR/config
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge4016d1" class="outline-3">
+<h3 id="orge4016d1">99-fsharp.fish</h3>
+<div class="outline-text-3" id="text-orge4016d1">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-fsharp.fish
+# configuration for F#
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ (command -v dotnet) ] &amp;&amp;
+    [ -d $HOME/.dotnet/tools ]
+    set -x PATH $PATH $HOME/.dotnet/tools
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf55ee3b" class="outline-3">
+<h3 id="orgf55ee3b">99-elinks.fish</h3>
+<div class="outline-text-3" id="text-orgf55ee3b">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-elinks.fish
+# configuration for elinks
+# &lt;alexforsale@yahoo.com&gt;
+
+
+if [ (command -v elinks) ] &amp;&amp;
+	[ -d $XDG_CONFIG_HOME/elinks ] &amp;&amp;
+	[ -d $HOME/.elinks ]
+    mv $HOME/.elinks $XDG_CONFIG_HOME/elinks
+else
+    mkdir -p $XDG_CONFIG_HOME/elinks
+end
+set -x ELINKS_CONFDIR $XDG_CONFIG_HOME/elinks
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3501735" class="outline-3">
+<h3 id="org3501735">99-ccache.fish</h3>
+<div class="outline-text-3" id="text-org3501735">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-ccache.fish
+# configuration for ccache
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ (command -v ccache) ] &amp;&amp;
+    [ -d /usr/lib/ccache/bin ]
+    set -x PATH /usr/lib/ccache/bin $PATH
+end
+
+switch $DISTRO
+    case gentoo
+	[ -r /var/cache/ccache ] &amp;&amp;
+	set -x CCACHE_DIR /var/cache/ccache
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org728c21a" class="outline-3">
+<h3 id="org728c21a">99-ghcup.fish</h3>
+<div class="outline-text-3" id="text-org728c21a">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-ghcup.fish
+# ghcup configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ (command -v ghcup) ]
+    [ -d $HOME/.cabal/bin ] &amp;&amp; set -x PATH $HOME/.cabal/bin $PATH
+    [ -d $HOME/.ghcup/bin ] &amp;&amp; set -x PATH $HOME/.ghcup/bin $PATH
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org314bba2" class="outline-3">
+<h3 id="org314bba2">99-cargo.fish</h3>
+<div class="outline-text-3" id="text-org314bba2">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-cargo.fish
+# cargo configuration
+# https://wiki.archlinux.org/index.php/Rust#Cargo
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ -d $HOME/.cargo/bin ]
+    set -x PATH $HOME/.cargo/bin $PATH
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0dddf8c" class="outline-3">
+<h3 id="org0dddf8c">99-ruby.fish</h3>
+<div class="outline-text-3" id="text-org0dddf8c">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-ruby.fish
+# ruby configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ (command -v ruby) ] &amp;&amp;
+	[ -d (ruby -e 'print Gem.user_dir')/bin ]
+    set -x PATH (ruby -e 'print Gem.user_dir')/bin $PATH
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf5d18bc" class="outline-3">
+<h3 id="orgf5d18bc">99-go.fish</h3>
+<div class="outline-text-3" id="text-orgf5d18bc">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-go.fish
+# $GOPATH configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ (command -v go) ]
+    # set GOPATH to ~/.local so we don't need
+    # to add more PATH
+    set -x GOPATH $HOME/.local
+end
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgafb4a6b" class="outline-3">
+<h3 id="orgafb4a6b">99-virtualenvwrapper.fish</h3>
+<div class="outline-text-3" id="text-orgafb4a6b">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-virtualenvwrapper.fish
+# $GOPATH configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+[ -d $HOME/.virtualenvs ] &amp;&amp; set -x WORKON_HOME $HOME/.virtualenvs
+
+[ -x /usr/bin/virtualenvwrapper.sh ] &amp;&amp;
+exec bash -c "source /usr/bin/virtualenvwrapper.sh"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgccc3cdf" class="outline-3">
+<h3 id="orgccc3cdf">99-python.fish</h3>
+<div class="outline-text-3" id="text-orgccc3cdf">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-python.fish
+# Python configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+[ $(command -v pipenv) ] &amp;&amp; set -x PIPENV_VENV_IN_PROJECT 1
+
+if [ $(command -v pyenv) ]
+    set -Ux PYENV_ROOT $HOME/.pyenv
+    fish_add_path $PYENV_ROOT/bin
+    pyenv init - | source
+end
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6dfe1c2" class="outline-3">
+<h3 id="org6dfe1c2">99-nano.fish</h3>
+<div class="outline-text-3" id="text-org6dfe1c2">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-nano.fish
+# GNU Nano configuration
+# &lt;alexforsale@yahoo.com&gt;
+
+if [ $(command -v nano) ]
+    if [ ! -d $XDG_CONFIG_HOME/nano ]
+	mkdir -p $XDG_CONFIG_HOME/nano
+	if [ -f $HOME/.nanorc ]
+	    if [ ! -f $XDG_CONFIG_HOME/nano/nanorc ]
+	    mv $HOME/.nanorc $XDG_CONFIG_HOME/nano/nanorc
+	else
+	    mv $HOME/.nanorc $XDG_CONFIG_HOME/nano/nanorc.bak
+	end
+    end
+    [ ! -d $XDG_CONFIG_HOME/nano/backups ] &amp;&amp; mkdir -pv $XDG_CONFIG_HOME/nano/backups
+    end
+end
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgee32ddf" class="outline-3">
+<h3 id="orgee32ddf">99-emacs_vterm.fish</h3>
+<div class="outline-text-3" id="text-orgee32ddf">
+<div class="org-src-container">
+<pre class="src src-fish"># ~/.config/fish/conf.d/99-emacs-vterm.sh
+# https://github.com/akermu/emacs-libvterm
+# &lt;alexforsale@yahoo.com&gt;
+
+function vterm_printf
+    if begin
+	    [ -n "$TMUX" ]; and string match -q -r "screen|tmux" "$TERM"
+	end
+	# tell tmux to pass the escape sequences through
+	printf "\ePtmux;\e\e]%s\007\e\\" "$argv"
+    else if string match -q -- "screen*" "$TERM"
+	# GNU screen (screen, screen-256color, screen-256color-bce)
+	printf "\eP\e]%s\007\e\\" "$argv"
+    else
+	printf "\e]%s\e\\" "$argv"
+    end
+end
+
+if [ "$INSIDE_EMACS" = vterm ]
+    function clear
+	vterm_printf "51;Evterm-clear-scrollback"
+	tput clear
+    end
+end
+
+function fish_title
+    hostname
+    echo ":"
+    prompt_pwd
+end
+
+function vterm_prompt_end
+    vterm_printf '51;A'(whoami)'@'(hostname)':'(pwd)
+end
+functions --copy fish_prompt vterm_old_fish_prompt
+function fish_prompt --description 'Write out the prompt; do not replace this. Instead, put this at end of your file.'
+    # Remove the trailing newline from the original prompt. This is done
+    # using the string builtin from fish, but to make sure any escape codes
+    # are correctly interpreted, use %b for printf.
+    printf "%b" (string join "\n" (vterm_old_fish_prompt))
+    vterm_prompt_end
+end
+
+function vterm_cmd --description 'Run an Emacs command among the ones been defined in vterm-eval-cmds.'
+    set -l vterm_elisp ()
+    for arg in $argv
+	set -a vterm_elisp (printf '"%s" ' (string replace -a -r '([\\\\"])' '\\\\\\\\$1' $arg))
+    end
+    vterm_printf '51;E'(string join '' $vterm_elisp)
+end
+
+function find_file
+    set -q argv[1]; or set argv[1] "."
+    vterm_cmd find-file (realpath "$argv")
+end
+
+function say
+    vterm_cmd message "%s" "$argv"
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<a href="https://wiki.archlinux.org/title/Fish">https://wiki.archlinux.org/title/Fish</a>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Date: 2024-11-05 Tue 00:00</p>
+<p class="author">Author: Kristian Alexander P</p>
+<p class="date">Created: 2024-11-06 Wed 02:58</p>
+</div>
+</body>
+</html>
