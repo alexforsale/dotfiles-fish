@@ -16,10 +16,21 @@
 #+startup: indent fold
 #+export_file_name: index.html
 #+setupfile: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+This is my /Fish/ shell configuration, as always, nothing fancy.
 * ~/.config/fish/config.fish
   :PROPERTIES:
   :header-args: :tangle .config/fish/config.fish :padline no :shebang #!/usr/bin/env fish :mkdirp t
   :END:
+  From all the shells I've used, this is the most recent. And it is intentionally not fully POSIX compliant, meaning porting POSIX compliant script may require significant rewrite.
+
+  As for now, just to conditionals for when called as a login shell or when called interactively. Most people used /fish/ as an interactive shell only, meaning the default shell (usually /bash/) is still used for initializing. But when I used /fish/ I set it up as my default shell (using /chsh/).
+
+  to check if you're in interactive or login shell, just run the following snippet:
+  #+begin_src fish
+    status --is-interactive || echo $status
+  #+end_src
+
+  and check its output
 ** interactive settings
 #+begin_src fish
   if status is-interactive
@@ -49,6 +60,7 @@ This allow us to run /fish/ as a login shell, while still having all the environ
   end
 #+end_src
 * ~/config/fish/conf.d
+Mostly just ports from my [[https://alexforsale.github.io/dotfiles-shells/][POSIX shell configuration]].
 ** 00-distro.fish
 :PROPERTIES:
 :header-args: :tangle .config/fish/conf.d/00-distro.fish :padline no :shebang #!/usr/bin/env fish :mkdirp t
@@ -724,7 +736,6 @@ This allow us to run /fish/ as a login shell, while still having all the environ
       end
   end
 #+end_src
-
 
 
 ** 99-emacs_vterm.fish
