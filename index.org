@@ -1,0 +1,797 @@
+#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
+#+options: author:t broken-links:nil c:nil creator:nil
+#+options: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:nil
+#+options: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+options: timestamp:t title:t toc:t todo:t |:t
+#+title: index
+#+date: <2024-11-05 Tue>
+#+author: Kristian Alexander P
+#+email: alexforsale@yahoo.com
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 29.4 (Org mode 9.8-pre)
+#+property: EXPORT_FILE_NAME: index.html
+#+cite_export:
+#+startup: indent fold
+#+export_file_name: index.html
+#+setupfile: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+* ~/.config/fish/config.fish
+  :PROPERTIES:
+  :header-args: :tangle .config/fish/config.fish :padline no :shebang #!/usr/bin/env fish :mkdirp t
+  :END:
+** interactive settings
+#+begin_src fish
+  if status is-interactive
+      # Commands to run in interactive sessions can go here
+      [ -d "$HOME/.local/bin" ] && set -x PATH $HOME/.local/bin $PATH
+
+      # completions
+      for dir in /usr/share/fish/completions \
+          /usr/share/fish/vendor_completions.d \
+          /usr/local/share/fish/completions \
+          ~/.config/fish/completions
+          if [ -d "$dir" ]
+              for files in "$dir/*"
+                  [ -f $files ] && source $files
+              end
+          end
+      end
+  end
+#+end_src
+** Login shell
+This allow us to run /fish/ as a login shell, while still having all the environment variables I would typically have in /bash/[fn:1].
+#+begin_src fish
+  # source /etc/profile with bash
+  if status is-login
+      exec bash -c "test -e /etc/profile && source /etc/profile;\
+      exec fish"
+  end
+#+end_src
+* ~/config/fish/conf.d
+** 00-distro.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/00-distro.fish :padline no :shebang #!/usr/bin/env fish :mkdirp t
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/00-distro.fish
+  # <alexforsale@yahoo.com>
+
+  if [ -f /etc/os-release ]
+      # freedesktop.org and systemd
+      set -x DISTRO (grep '^ID=' /etc/os-release| sed 's/^ID=//')
+      set -x DISTROVER (grep '^VERSION_ID' /etc/os-release| sed 's/^ID=//')
+  else if [ (command -v lsb_release >/dev/null) ]
+      # linuxbase.org
+      set -x DISTRO (lsb_release -si | awk '{print tolower ($0)}')
+      set -x DISTROVER (lsb_release -sr | awk '{print tolower ($0)}')
+  else if [ -f /etc/lsb-release ]
+      # For some versions of Debian/Ubuntu without lsb_release command
+      set -x DISTRO (grep '^ID' /etc/lsb-release| sed 's/^DISTRIB_ID=//')
+      set -x DISTROVER (grep '^VERSION_ID' /etc/lsb-release| sed 's/^DISTRIB_RELEASE=//')
+  else if [ -f /etc/debian_version ]; then
+      # Older Debian/Ubuntu/etc.
+      set -x DISTRO Debian
+      set -x DISTROVER (cat /etc/debian_version)
+  else
+      set -x DISTRO (uname -s)
+      set -x DISTROVER (uname -r)
+  end
+#+end_src
+** 00-locale.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/00-locale.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/00-locale.fish
+  # <alexforsale@yahoo.com>
+
+  set -x LANG en_US.UTF-8
+
+  if [ -z $MM_CHARSET ]
+    set -x MM_CHARSET $LANG
+  end
+#+end_src
+** 01-xdg_base_directory.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/01-xdg_base_directory.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/01-xdg_base_directory.fish
+  # <alexforsale@yahoo.com>
+
+  if [ -z $XDG_CONFIG_HOME ]
+      if [ -d $HOME/.config ]
+          mkdir -p $HOME/.config
+      end
+      set -x XDG_CONFIG_HOME $HOME/.config
+  end
+
+  if [ -z $XDG_CACHE_HOME ]
+      if [ -d $HOME/.cache ]
+          mkdir -p $HOME/.cache
+      end
+      set -x XDG_CACHE_HOME $HOME/.cache
+  end
+
+  if [ -z $XDG_DATA_HOME ]
+      if [ -d $HOME/.local/share ]
+          mkdir -p $HOME/.local/share
+      end
+      set -x XDG_DATA_HOME $HOME/.local/share
+  end
+
+  if [ -z $XDG_DESKTOP_DIR ]
+      set -x XDG_DESKTOP_DIR $HOME/Desktop
+      mkdir -p $XDG_DESKTOP_DIR
+  end
+  if [ -z $XDG_DOWNLOAD_DIR ]
+      set -x XDG_DOWNLOAD_DIR $HOME/Downloads
+      mkdir -p $XDG_DOWNLOAD_DIR
+  end
+  if [ -z $XDG_TEMPLATES_DIR ]
+      set -x XDG_TEMPLATES_DIR $HOME/Templates
+      mkdir -p $XDG_TEMPLATES_DIR
+  end
+  if [ -z $XDG_PUBLICSHARE_DIR ]
+      set -x XDG_PUBLICSHARE_DIR $HOME/Public
+      mkdir -p $XDG_PUBLICSHARE_DIR
+  end
+  if [ -z $XDG_DOCUMENTS_DIR ]
+      set -x XDG_DOCUMENTS_DIR $HOME/Documents
+      mkdir -p $XDG_DOCUMENTS_DIR
+  end
+  if [ -z $XDG_MUSIC_DIR ]
+      set -x XDG_MUSIC_DIR $HOME/Music
+      mkdir -p $XDG_MUSIC_DIR
+  end
+  if [ -z $XDG_PICTURES_DIR ]
+      set -x XDG_PICTURES_DIR $HOME/Pictures
+      mkdir -p $XDG_PICTURES_DIR
+  end
+  if [ -z $XDG_VIDEOS_DIR ]
+      set -x XDG_VIDEOS_DIR $HOME/Videos
+      mkdir -p $XDG_VIDEOS_DIR
+  end
+
+  if [ -n $GUIX_LOCPATH ] || [ $DISTRO = "guix" ]
+      if [ -d $HOME/.nix-profile/share ]
+          set -x XDG_DATA_DIRS "$XDG_DATA_DIRS:$HOME/.nix-profile/share"
+      end
+  end
+
+#+end_src
+** 02-editors.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/02-editors.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/03-nix.fish
+  # from https://github.com/lilyball/nix-env.fish/blob/master/conf.d/nix-env.fish
+  # <alexforsale@yahoo.com>
+
+  if [ -f $HOME/.config/chemacs/profile ] &&
+          [ -z $CHEMACS_PROFILE ]
+      set -x CHEMACS_PROFILE (cat $HOME/.config/chemacs/profile)
+  else if [ -f $HOME/emacs-profile ]
+      set -x CHEMACS_PROFILE (cat $HOME/.emacs-profile)
+  end
+
+  if [ -n $CHEMACS_PROFILE ]
+      set emacs_args "-s $CHEMACS_PROFILE"
+  end
+
+  if [ (command -v emacs) ]
+      if [ -z $VISUAL ]
+          set -x VISUAL "emacsclient -t $emacs_args -a ''"
+      end
+      if [ -z $EDITOR ]
+          set -x EDITOR "emacsclient -c $emacs_args -a ''"
+      end
+      set -x ALTERNATE_EDITOR $VISUAL
+  else if [ (command -v gvim) ]
+      if [ -z $EDITOR ]
+          set -x EDITOR gvim
+      end
+      if [ -z $VISUAL ]
+      end
+  else
+      for editor in nvim leafpad l3afpad kate pluma kwrite scribe geany gedit code vi
+          if [ (command -v $editor ) ]
+              [ -z $EDITOR ] && set -x EDITOR $editor
+          end
+          set -x VISUAL $EDITOR
+          set -x ALTERNATE_EDITOR $EDITOR
+      end
+  end
+#+end_src
+** 03-nix.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/03-nix.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/03-nix.fish
+  # from https://github.com/lilyball/nix-env.fish/blob/master/conf.d/nix-env.fish
+  # <alexforsale@yahoo.com>
+
+  set -l nix_profile_path /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  set -l single_user_profile_path ~/.nix-profile/etc/profile.d/nix.sh
+  if test -e $nix_profile_path
+      # The path exists. Double-check that this is a multi-user install.
+      # We can't just check for ~/.nix-profile/… because this may be a single-user install running as
+      # the wrong user.
+
+      # stat is not portable. Splitting the output of ls -nd is reliable on most platforms.
+      set -l owner (string split -n ' ' (command ls -nd /nix/store 2>/dev/null))[3]
+      if not test -k /nix/store -a $owner -eq 0
+          # /nix/store is either not owned by root or not sticky. Assume single-user.
+          set nix_profile_path $single_user_profile_path
+      end
+  else
+      # The path doesn't exist. Assume single-user
+      set nix_profile_path $single_user_profile_path
+  end
+
+  if test -e $nix_profile_path
+      # Source the nix setup script
+      # We're going to run the regular Nix profile under bash and then print out a few variables
+      for line in (command env -u BASH_ENV bash -c '. "$0"; for name in PATH "${!NIX_@}"; do printf "%s=%s\0" "$name" "${!name}"; done' $nix_profile_path | string split0)
+          set -xg (string split -m 1 = $line)
+      end
+
+      # Insert Nix's fish share directories into fish's special variables.
+      # nixpkgs-installed fish tries to set these up already if NIX_PROFILES is defined, which won't
+      # be the case when sourcing $__fish_data_dir/share/config.fish normally, but might be for a
+      # recursive invocation. To guard against that, we'll only insert paths that don't already exit.
+      # Furthermore, for the vendor_conf.d sourcing, we'll use the pre-existing presence of a path in
+      # $fish_function_path to determine whether we want to source the relevant vendor_conf.d folder.
+
+      # To start, let's locally define NIX_PROFILES if it doesn't already exist.
+      set -al NIX_PROFILES
+      if test (count $NIX_PROFILES) -eq 0
+          set -a NIX_PROFILES $HOME/.nix-profile
+      end
+      # Replicate the logic from nixpkgs version of $__fish_data_dir/__fish_build_paths.fish.
+      set -l __nix_profile_paths (string split ' ' -- $NIX_PROFILES)[-1..1]
+      set -l __extra_completionsdir \
+          $__nix_profile_paths/etc/fish/completions \
+          $__nix_profile_paths/share/fish/vendor_completions.d
+      set -l __extra_functionsdir \
+          $__nix_profile_paths/etc/fish/functions \
+          $__nix_profile_paths/share/fish/vendor_functions.d
+      set -l __extra_confdir \
+          $__nix_profile_paths/etc/fish/conf.d \
+          $__nix_profile_paths/share/fish/vendor_conf.d
+      ### Configure fish_function_path ###
+      # Remove any of our extra paths that may already exist.
+      # Record the equivalent __extra_confdir path for any function path that exists.
+      set -l existing_conf_paths
+      for path in $__extra_functionsdir
+          if set -l idx (contains --index -- $path $fish_function_path)
+              set -e fish_function_path[$idx]
+              set -a existing_conf_paths $__extra_confdir[(contains --index -- $path $__extra_functionsdir)]
+          end
+      end
+      # Insert the paths before $__fish_data_dir.
+      if set -l idx (contains --index -- $__fish_data_dir/functions $fish_function_path)
+          # Fish has no way to simply insert into the middle of an array.
+          set -l new_path $fish_function_path[1..$idx]
+          set -e new_path[$idx]
+          set -a new_path $__extra_functionsdir
+          set fish_function_path $new_path $fish_function_path[$idx..-1]
+      else
+          set -a fish_function_path $__extra_functionsdir
+      end
+
+      ### Configure fish_complete_path ###
+      # Remove any of our extra paths that may already exist.
+      for path in $__extra_completionsdir
+          if set -l idx (contains --index -- $path $fish_complete_path)
+              set -e fish_complete_path[$idx]
+          end
+      end
+      # Insert the paths before $__fish_data_dir.
+      if set -l idx (contains --index -- $__fish_data_dir/completions $fish_complete_path)
+          set -l new_path $fish_complete_path[1..$idx]
+          set -e new_path[$idx]
+          set -a new_path $__extra_completionsdir
+          set fish_complete_path $new_path $fish_complete_path[$idx..-1]
+      else
+          set -a fish_complete_path $__extra_completionsdir
+      end
+
+      ### Source conf directories ###
+      # The built-in directories were already sourced during shell initialization.
+      # Any __extra_confdir that came from $__fish_data_dir/__fish_build_paths.fish was also sourced.
+      # As explained above, we're using the presence of pre-existing paths in $fish_function_path as a
+      # signal that the corresponding conf dir has also already been sourced.
+      # In order to simulate this, we'll run through the same algorithm as found in
+      # $__fish_data_dir/config.fish except we'll avoid sourcing the file if it comes from an
+      # already-sourced location.
+      # Caveats:
+      # * Files will be sourced in a different order than we'd ideally do (because we're coming in
+      #   after the fact to source them).
+      # * If there are existing extra conf paths, files in them may have been sourced that should have
+      #   been suppressed by paths we're inserting in front.
+      # * Similarly any files in $__fish_data_dir/vendor_conf.d that should have been suppressed won't
+      #   have been.
+      set -l sourcelist
+      for file in $__fish_config_dir/conf.d/*.fish $__fish_sysconf_dir/conf.d/*.fish
+          # We know these paths were sourced already. Just record them.
+          set -l basename (string replace -r '^.*/' '' -- $file)
+          contains -- $basename $sourcelist
+          or set -a sourcelist $basename
+      end
+      for root in $__extra_confdir
+          for file in $root/*.fish
+              set -l basename (string replace -r '^.*/' '' -- $file)
+              contains -- $basename $sourcelist
+              and continue
+              set -a sourcelist $basename
+              contains -- $root $existing_conf_paths
+              and continue # this is a pre-existing path, it will have been sourced already
+              [ -f $file -a -r $file ]
+              and source $file
+          end
+      end
+  end
+
+#+end_src
+** 04-terminals.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/04-terminals.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/04-terminals.fish
+  # ${TERMINAL} apps
+  # <alexforsale@yahoo.com>
+
+  for term in alacritty urxvt xterm gnome-terminal terminator tilda guake konsole lxterminal yakuake st terminology xfce4-terminal
+      if [ (command -v $term) ]
+          [ -z $TERMINAL ] && set -x TERMINAL $term
+      end
+  end
+#+end_src
+** 05-filemanagers.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/05-filemanagers.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/05-filemanagers.sh
+  # filemanager configuration
+  # <alexforsale@yahoo.com>
+
+  for file in ranger pcmanfm thunar caja nautilus nemo dolphin rox
+      if [ (command -v $file) ]
+          [ -z $FILE ] && set -e FILE $file
+      end
+  end
+#+end_src
+** 06-security.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/06-security.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/06-security.fish
+  # doom emacs path
+  # <alexforsale@yahoo.com>
+
+  set -x GPG_TTY (tty)
+
+  # https://wiki.gentoo.org/wiki/GnuPG#Automatically_starting_the_GPG_agent
+  if [ -n $SSH_CONNECTION ]
+      set -x PINENTRY_USER_DATA "USE_CURSES=1"
+  end
+
+  switch $DISTRO
+      case freebsd
+          for i in curses gnome3 gtk2 qt5
+              if [ (command -v pinentry-$i) ]
+                  set _PINENTRY (command -v pinentry-$i)
+              else
+                  set _PINENTRY (command -v pinentry)
+              end
+          end
+      case '*'
+          if [ -z "(pgrep -u $USER -x gpg-agent)" ]
+              gpg-agent --pinentry-program (command -v pinentry) >/dev/null
+          end
+  end
+
+#+end_src
+** 07-browsers.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/07-browsers.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/07-browser.fish
+  # ${BROWSER} configuration
+  # <alexforsale@yahoo.com>
+
+  # Browser
+  for browser in firefox google-chrome-stable midori qutebrowser chromium seamonkey falkon
+      if [ (command -v browser) ]
+          [ -z $BROWSER ] && set -x BROWSER $browser
+      else
+          for term_browser in elinks lynx w3m links
+              if [ (command -v term_browser) ]
+                  [ -z $BROWSER ] && set -x BROWSER $term_browser
+              end
+          end
+      end
+  end
+
+#+end_src
+** 08-mail_apps.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/08-mail_apps.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/08-mail_apps.sh
+  # ${MAIL_APP} configuration
+  # <alexforsale@yahoo.com>
+
+  for mail_app in alpine balsa evolution geary kmail kube mailspring thunderbird
+      if [ (command -v $mail_app) ]
+          [ -z $MAIL_APP ] && set -x MAIL_APP $mail_app
+      end
+  end
+#+end_src
+** 99-nord-theme.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-nord-theme.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  #!/usr/bin/env fish
+  # ~/.config/fish/conf.d/99-nord-theme.fish
+  # Nord Theme for fish shell
+  # from https://github.com/nordtheme/nord/issues/102
+  # <alexforsale@yahoo.com>
+
+  set nord0 2e3440
+  set nord1 3b4252
+  set nord2 434c5e
+  set nord3 4c566a
+  set nord4 d8dee9
+  set nord5 e5e9f0
+  set nord6 eceff4
+  set nord7 8fbcbb
+  set nord8 88c0d0
+  set nord9 81a1c1
+  set nord10 5e81ac
+  set nord11 bf616a
+  set nord12 d08770
+  set nord13 ebcb8b
+  set nord14 a3be8c
+  set nord15 b48ead
+
+  set fish_color_normal $nord4
+  set fish_color_command $nord9
+  set fish_color_quote $nord14
+  set fish_color_redirection $nord9
+  set fish_color_end $nord6
+  set fish_color_error $nord11
+  set fish_color_param $nord4
+  set fish_color_comment $nord3
+  set fish_color_match $nord8
+  set fish_color_search_match $nord8
+  set fish_color_operator $nord9
+  set fish_color_escape $nord13
+  set fish_color_cwd $nord8
+  set fish_color_autosuggestion $nord6
+  set fish_color_user $nord4
+  set fish_color_host $nord9
+  set fish_color_cancel $nord15
+  set fish_pager_color_prefix $nord13
+  set fish_pager_color_completion $nord6
+  set fish_pager_color_description $nord10
+  set fish_pager_color_progress $nord12
+  set fish_pager_color_secondary $nord1
+#+end_src
+** 99-doom_emacs.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-doom_emacs.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-doom_emacs.sh
+  # doom emacs path
+  # <alexforsale@yahoo.com>
+
+  if [ (command -v emacs) ] &&
+          [ -e $HOME/.emacs.d/bin/doom ]
+      [ ! (command -v doom) ] &&
+          set -x PATH $PATH $HOME/.emacs.d/bin
+  else if [ -d $HOME/.config/doom/bin ]
+      [ ! (command -v doom) ]
+      set -x PATH $PATH $HOME/.config/doom/bin
+  end
+
+#+end_src
+** 99-composer.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-composer.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-composer.fish
+  # <alexforsale@yahoo.com>
+
+  if command -v composer &>/dev/null and
+      test -d $HOME/.config/composer/vendor/bin
+      set -x PATH $PATH $HOME/.config/composer/vendor/bin
+  end
+#+end_src
+** 99-screen.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-screen.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-screen.fish
+  # configuration for GNU Screen
+  # <alexforsale@yahoo.com>
+
+  if [ (command -v screen) ] &&
+          [ ! -d $XDG_CONFIG_HOME/screen ]
+      if [ -d $HOME/.screen ]
+          mv $HOME/.screen $XDG_CONFIG_HOME/screen
+      else
+          mkdir -p $XDG_CONFIG_HOME/screen
+      end
+  end
+  set -x SCREENDIR $XDG_CONFIG_HOME/screen
+  chmod 700 $SCREENDIR
+  set -x SCREENRC $SCREENDIR/config
+#+end_src
+** 99-fsharp.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-fsharp.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-fsharp.fish
+  # configuration for F#
+  # <alexforsale@yahoo.com>
+
+  if [ (command -v dotnet) ] &&
+      [ -d $HOME/.dotnet/tools ]
+      set -x PATH $PATH $HOME/.dotnet/tools
+  end
+#+end_src
+** 99-elinks.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-elinks.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-elinks.fish
+  # configuration for elinks
+  # <alexforsale@yahoo.com>
+
+
+  if [ (command -v elinks) ] &&
+          [ -d $XDG_CONFIG_HOME/elinks ] &&
+          [ -d $HOME/.elinks ]
+      mv $HOME/.elinks $XDG_CONFIG_HOME/elinks
+  else
+      mkdir -p $XDG_CONFIG_HOME/elinks
+  end
+  set -x ELINKS_CONFDIR $XDG_CONFIG_HOME/elinks
+#+end_src
+** 99-ccache.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-ccache.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-ccache.fish
+  # configuration for ccache
+  # <alexforsale@yahoo.com>
+
+  if [ (command -v ccache) ] &&
+      [ -d /usr/lib/ccache/bin ]
+      set -x PATH /usr/lib/ccache/bin $PATH
+  end
+
+  switch $DISTRO
+      case gentoo
+          [ -r /var/cache/ccache ] &&
+          set -x CCACHE_DIR /var/cache/ccache
+  end
+#+end_src
+** 99-ghcup.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-ccache.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-ghcup.fish
+  # ghcup configuration
+  # <alexforsale@yahoo.com>
+
+  if [ (command -v ghcup) ]
+      [ -d $HOME/.cabal/bin ] && set -x PATH $HOME/.cabal/bin $PATH
+      [ -d $HOME/.ghcup/bin ] && set -x PATH $HOME/.ghcup/bin $PATH
+  end
+#+end_src
+** 99-cargo.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-cargo.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-cargo.fish
+  # cargo configuration
+  # https://wiki.archlinux.org/index.php/Rust#Cargo
+  # <alexforsale@yahoo.com>
+
+  if [ -d $HOME/.cargo/bin ]
+      set -x PATH $HOME/.cargo/bin $PATH
+  end
+#+end_src
+** 99-ruby.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-ruby.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-ruby.fish
+  # ruby configuration
+  # <alexforsale@yahoo.com>
+
+  if [ (command -v ruby) ] &&
+          [ -d (ruby -e 'print Gem.user_dir')/bin ]
+      set -x PATH (ruby -e 'print Gem.user_dir')/bin $PATH
+  end
+#+end_src
+** 99-go.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-go.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-go.fish
+  # $GOPATH configuration
+  # <alexforsale@yahoo.com>
+
+  if [ (command -v go) ]
+      # set GOPATH to ~/.local so we don't need
+      # to add more PATH
+      set -x GOPATH $HOME/.local
+  end
+#+end_src
+
+** 99-virtualenvwrapper.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-virtualenvwrapper.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-virtualenvwrapper.fish
+  # $GOPATH configuration
+  # <alexforsale@yahoo.com>
+
+  [ -d $HOME/.virtualenvs ] && set -x WORKON_HOME $HOME/.virtualenvs
+
+  [ -x /usr/bin/virtualenvwrapper.sh ] &&
+  exec bash -c "source /usr/bin/virtualenvwrapper.sh"
+#+end_src
+
+** 99-python.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-python.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-python.fish
+  # Python configuration
+  # <alexforsale@yahoo.com>
+
+  [ $(command -v pipenv) ] && set -x PIPENV_VENV_IN_PROJECT 1
+
+  if [ $(command -v pyenv) ]
+      set -Ux PYENV_ROOT $HOME/.pyenv
+      fish_add_path $PYENV_ROOT/bin
+      pyenv init - | source
+  end
+
+#+end_src
+
+** 99-nano.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-nano.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-nano.fish
+  # GNU Nano configuration
+  # <alexforsale@yahoo.com>
+
+  if [ $(command -v nano) ]
+      if [ ! -d $XDG_CONFIG_HOME/nano ]
+          mkdir -p $XDG_CONFIG_HOME/nano
+          if [ -f $HOME/.nanorc ]
+              if [ ! -f $XDG_CONFIG_HOME/nano/nanorc ]
+              mv $HOME/.nanorc $XDG_CONFIG_HOME/nano/nanorc
+          else
+              mv $HOME/.nanorc $XDG_CONFIG_HOME/nano/nanorc.bak
+          end
+      end
+      [ ! -d $XDG_CONFIG_HOME/nano/backups ] && mkdir -pv $XDG_CONFIG_HOME/nano/backups
+      end
+  end
+#+end_src
+
+
+
+** 99-emacs_vterm.fish
+:PROPERTIES:
+:header-args: :tangle .config/fish/conf.d/99-emacs_vterm.fish :padline no :shebang #!/usr/bin/env fish
+:END:
+#+begin_src fish
+  # ~/.config/fish/conf.d/99-emacs-vterm.sh
+  # https://github.com/akermu/emacs-libvterm
+  # <alexforsale@yahoo.com>
+
+  function vterm_printf
+      if begin
+              [ -n "$TMUX" ]; and string match -q -r "screen|tmux" "$TERM"
+          end
+          # tell tmux to pass the escape sequences through
+          printf "\ePtmux;\e\e]%s\007\e\\" "$argv"
+      else if string match -q -- "screen*" "$TERM"
+          # GNU screen (screen, screen-256color, screen-256color-bce)
+          printf "\eP\e]%s\007\e\\" "$argv"
+      else
+          printf "\e]%s\e\\" "$argv"
+      end
+  end
+
+  if [ "$INSIDE_EMACS" = vterm ]
+      function clear
+          vterm_printf "51;Evterm-clear-scrollback"
+          tput clear
+      end
+  end
+
+  function fish_title
+      hostname
+      echo ":"
+      prompt_pwd
+  end
+
+  function vterm_prompt_end
+      vterm_printf '51;A'(whoami)'@'(hostname)':'(pwd)
+  end
+  functions --copy fish_prompt vterm_old_fish_prompt
+  function fish_prompt --description 'Write out the prompt; do not replace this. Instead, put this at end of your file.'
+      # Remove the trailing newline from the original prompt. This is done
+      # using the string builtin from fish, but to make sure any escape codes
+      # are correctly interpreted, use %b for printf.
+      printf "%b" (string join "\n" (vterm_old_fish_prompt))
+      vterm_prompt_end
+  end
+
+  function vterm_cmd --description 'Run an Emacs command among the ones been defined in vterm-eval-cmds.'
+      set -l vterm_elisp ()
+      for arg in $argv
+          set -a vterm_elisp (printf '"%s" ' (string replace -a -r '([\\\\"])' '\\\\\\\\$1' $arg))
+      end
+      vterm_printf '51;E'(string join '' $vterm_elisp)
+  end
+
+  function find_file
+      set -q argv[1]; or set argv[1] "."
+      vterm_cmd find-file (realpath "$argv")
+  end
+
+  function say
+      vterm_cmd message "%s" "$argv"
+  end
+#+end_src
+* Footnotes
+
+[fn:1] https://wiki.archlinux.org/title/Fish

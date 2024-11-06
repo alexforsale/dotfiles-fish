@@ -1,0 +1,26 @@
+#+options: ':nil *:t -:t ::t <:t H:2 \n:nil ^:t arch:headline
+#+options: author:t broken-links:nil c:nil creator:nil
+#+options: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:nil
+#+options: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+options: timestamp:t title:t toc:t todo:t |:t
+#+title: README
+#+date: <2024-11-05 Tue>
+#+author: Kristian Alexander P
+#+email: alexforsale@yahoo.com
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 29.4 (Org mode 9.8-pre)
+#+cite_export:
+
+#+begin_html
+<a href="https://raw.githubusercontent.com/alexforsale/dotfiles-fish/main/LICENSE.md">
+<img alt="GPLv3" src="https://img.shields.io/github/license/alexforsale/dotfiles-fish" />
+</a>
+
+<a href="https://github.com/alexforsale/dotfiles-fish/actions/workflows/publish.yml">
+<img alt="Build status" src="https://github.com/alexforsale/dotfiles-fish/actions/workflows/publish.yml/badge.svg" />
+</a>
+#+end_html
+
+* About
