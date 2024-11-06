@@ -184,34 +184,34 @@ Mostly just ports from my [[https://alexforsale.github.io/dotfiles-shells/][POSI
   # <alexforsale@yahoo.com>
 
   if [ -f $HOME/.config/chemacs/profile ] &&
-          [ -z $CHEMACS_PROFILE ]
+          [ -z "$CHEMACS_PROFILE" ]
       set -x CHEMACS_PROFILE (cat $HOME/.config/chemacs/profile)
-  else if [ -f $HOME/emacs-profile ]
+  else if [ -f $HOME/.emacs-profile ]
       set -x CHEMACS_PROFILE (cat $HOME/.emacs-profile)
   end
 
-  if [ -n $CHEMACS_PROFILE ]
+  if [ -n "$CHEMACS_PROFILE" ]
       set emacs_args "-s $CHEMACS_PROFILE"
   end
 
   if [ (command -v emacs) ]
-      if [ -z $VISUAL ]
+      if [ ! (set -q VISUAL) ]
           set -x VISUAL "emacsclient -t $emacs_args -a ''"
       end
-      if [ -z $EDITOR ]
+      if [ ! (set -q EDITOR) ]
           set -x EDITOR "emacsclient -c $emacs_args -a ''"
       end
       set -x ALTERNATE_EDITOR $VISUAL
   else if [ (command -v gvim) ]
-      if [ -z $EDITOR ]
+      if [ ! (set -q EDITOR) ]
           set -x EDITOR gvim
       end
-      if [ -z $VISUAL ]
+      if [ ! (set -q VISUAL) ]
       end
   else
       for editor in nvim leafpad l3afpad kate pluma kwrite scribe geany gedit code vi
           if [ (command -v $editor ) ]
-              [ -z $EDITOR ] && set -x EDITOR $editor
+              [ ! (set -q EDITOR) ] && set -x EDITOR $editor
           end
           set -x VISUAL $EDITOR
           set -x ALTERNATE_EDITOR $EDITOR
@@ -803,6 +803,22 @@ Mostly just ports from my [[https://alexforsale.github.io/dotfiles-shells/][POSI
       vterm_cmd message "%s" "$argv"
   end
 #+end_src
+
+* ~/.config/fish/functions
+** fish_greeting
+:PROPERTIES:
+:header-args: :tangle .config/fish/functions/fish_greeting.fish :padline no :shebang #!/usr/bin/env fish :mkdirp t
+:END:
+
+#+begin_src fish
+  function fish_greeting
+      echo "Welcome to "(fish --version)", the friendly interactive shell"
+      echo Type (set_color green; echo -n help) (set_color normal; echo -n "for instructions on how to use fish")
+  end
+
+#+end_src
+This is basically the default greetings, the only change is I've added the version.
+
 * Footnotes
 
 [fn:1] https://wiki.archlinux.org/title/Fish
