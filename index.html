@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-06 Wed 12:50 -->
+<!-- 2024-11-06 Wed 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>index</title>
@@ -25,44 +25,43 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgebdd68c">~/.config/fish/config.fish</a>
+<li><a href="#orgdbd6f87">~/.config/fish/config.fish</a>
 <ul>
-<li><a href="#org0202962">interactive settings</a></li>
-<li><a href="#org7db761d">Login shell</a></li>
+<li><a href="#org1ba9e9f">interactive settings</a></li>
+<li><a href="#orgc5b2458">Login shell</a></li>
 </ul>
 </li>
-<li><a href="#orga9fc057">~/config/fish/conf.d</a>
+<li><a href="#org53abc1e">~/config/fish/conf.d</a>
 <ul>
-<li><a href="#org31cdba8">00-distro.fish</a></li>
-<li><a href="#org146ac40">00-locale.fish</a></li>
-<li><a href="#org12eea46">01-xdg_base_directory.fish</a></li>
-<li><a href="#org18b9f24">02-editors.fish</a></li>
-<li><a href="#org5f8ac24">03-nix.fish</a></li>
-<li><a href="#org9cc69d9">04-terminals.fish</a></li>
-<li><a href="#org2b7832d">05-filemanagers.fish</a></li>
-<li><a href="#org199858e">06-security.fish</a></li>
-<li><a href="#org2ac8728">07-browsers.fish</a></li>
-<li><a href="#orgde3e794">08-mail_apps.fish</a></li>
-<li><a href="#orgbd8b530">99-nord-theme.fish</a></li>
-<li><a href="#orgb69b963">99-doom_emacs.fish</a></li>
-<li><a href="#org395b545">99-composer.fish</a></li>
-<li><a href="#org396c6bb">99-screen.fish</a></li>
-<li><a href="#org074a1da">99-fsharp.fish</a></li>
-<li><a href="#org72a6f09">99-elinks.fish</a></li>
-<li><a href="#orgd06cb63">99-ccache.fish</a></li>
-<li><a href="#org30ed234">99-ghcup.fish</a></li>
-<li><a href="#org0b86c84">99-cargo.fish</a></li>
-<li><a href="#org19f5b4a">99-ruby.fish</a></li>
-<li><a href="#orge22ff05">99-go.fish</a></li>
-<li><a href="#orgd9c232b">99-virtualenvwrapper.fish</a></li>
-<li><a href="#org17e4fcd">99-python.fish</a></li>
-<li><a href="#org1d99fb8">99-nano.fish</a></li>
-<li><a href="#org44bf53f">99-emacs_vterm.fish</a></li>
+<li><a href="#org917ba9f">00-distro.fish</a></li>
+<li><a href="#org5cf8bbb">00-locale.fish</a></li>
+<li><a href="#orga10f152">01-xdg_base_directory.fish</a></li>
+<li><a href="#org06d214f">02-editors.fish</a></li>
+<li><a href="#orgd8bc3a9">03-nix.fish</a></li>
+<li><a href="#orgbf2e0ca">04-terminals.fish</a></li>
+<li><a href="#org2b03b04">05-filemanagers.fish</a></li>
+<li><a href="#orga482aa7">06-security.fish</a></li>
+<li><a href="#orgfc4e4e0">07-browsers.fish</a></li>
+<li><a href="#org68fc453">08-mail_apps.fish</a></li>
+<li><a href="#orge42b20a">99-doom_emacs.fish</a></li>
+<li><a href="#org22266fb">99-composer.fish</a></li>
+<li><a href="#org7a2862d">99-screen.fish</a></li>
+<li><a href="#org7b8506c">99-fsharp.fish</a></li>
+<li><a href="#org2b0f2ca">99-elinks.fish</a></li>
+<li><a href="#orgfc67e95">99-ccache.fish</a></li>
+<li><a href="#orgab4c147">99-ghcup.fish</a></li>
+<li><a href="#orgf529208">99-cargo.fish</a></li>
+<li><a href="#org67a2a34">99-ruby.fish</a></li>
+<li><a href="#orgde3672b">99-go.fish</a></li>
+<li><a href="#org63abdc5">99-virtualenvwrapper.fish</a></li>
+<li><a href="#orga07b871">99-python.fish</a></li>
+<li><a href="#org7329488">99-nano.fish</a></li>
+<li><a href="#org2078e4d">99-emacs_vterm.fish</a></li>
 </ul>
 </li>
-<li><a href="#org20ec2c3">~/.config/fish/functions</a>
+<li><a href="#orged420fc">~/.config/fish/functions</a>
 <ul>
-<li><a href="#org9828fd1">fish_greeting</a></li>
+<li><a href="#org6224ff3">fish_greeting</a></li>
 </ul>
 </li>
 </ul>
@@ -71,9 +70,9 @@
 <p>
 This is my <i>Fish</i> shell configuration, as always, nothing fancy.
 </p>
-<div id="outline-container-orgebdd68c" class="outline-2">
-<h2 id="orgebdd68c">~/.config/fish/config.fish</h2>
-<div class="outline-text-2" id="text-orgebdd68c">
+<div id="outline-container-orgdbd6f87" class="outline-2">
+<h2 id="orgdbd6f87">~/.config/fish/config.fish</h2>
+<div class="outline-text-2" id="text-orgdbd6f87">
 <p>
 From all the shells I've used, this is the most recent. And it is intentionally not fully POSIX compliant, meaning porting POSIX compliant script may require significant rewrite.
 </p>
@@ -94,9 +93,9 @@ to check if you're in interactive or login shell, just run the following snippet
 and check its output
 </p>
 </div>
-<div id="outline-container-org0202962" class="outline-3">
-<h3 id="org0202962">interactive settings</h3>
-<div class="outline-text-3" id="text-org0202962">
+<div id="outline-container-org1ba9e9f" class="outline-3">
+<h3 id="org1ba9e9f">interactive settings</h3>
+<div class="outline-text-3" id="text-org1ba9e9f">
 <div class="org-src-container">
 <pre class="src src-fish">if status is-interactive
     # Commands to run in interactive sessions can go here
@@ -118,9 +117,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org7db761d" class="outline-3">
-<h3 id="org7db761d">Login shell</h3>
-<div class="outline-text-3" id="text-org7db761d">
+<div id="outline-container-orgc5b2458" class="outline-3">
+<h3 id="orgc5b2458">Login shell</h3>
+<div class="outline-text-3" id="text-orgc5b2458">
 <p>
 This allow us to run <i>fish</i> as a login shell, while still having all the environment variables I would typically have in <i>bash</i><sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.
 </p>
@@ -135,16 +134,16 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-orga9fc057" class="outline-2">
-<h2 id="orga9fc057">~/config/fish/conf.d</h2>
-<div class="outline-text-2" id="text-orga9fc057">
+<div id="outline-container-org53abc1e" class="outline-2">
+<h2 id="org53abc1e">~/config/fish/conf.d</h2>
+<div class="outline-text-2" id="text-org53abc1e">
 <p>
 Mostly just ports from my <a href="https://alexforsale.github.io/dotfiles-shells/">POSIX shell configuration</a>.
 </p>
 </div>
-<div id="outline-container-org31cdba8" class="outline-3">
-<h3 id="org31cdba8">00-distro.fish</h3>
-<div class="outline-text-3" id="text-org31cdba8">
+<div id="outline-container-org917ba9f" class="outline-3">
+<h3 id="org917ba9f">00-distro.fish</h3>
+<div class="outline-text-3" id="text-org917ba9f">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/00-distro.fish
 # &lt;alexforsale@yahoo.com&gt;
@@ -173,9 +172,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org146ac40" class="outline-3">
-<h3 id="org146ac40">00-locale.fish</h3>
-<div class="outline-text-3" id="text-org146ac40">
+<div id="outline-container-org5cf8bbb" class="outline-3">
+<h3 id="org5cf8bbb">00-locale.fish</h3>
+<div class="outline-text-3" id="text-org5cf8bbb">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/00-locale.fish
 # &lt;alexforsale@yahoo.com&gt;
@@ -189,9 +188,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org12eea46" class="outline-3">
-<h3 id="org12eea46">01-xdg_base_directory.fish</h3>
-<div class="outline-text-3" id="text-org12eea46">
+<div id="outline-container-orga10f152" class="outline-3">
+<h3 id="orga10f152">01-xdg_base_directory.fish</h3>
+<div class="outline-text-3" id="text-orga10f152">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/01-xdg_base_directory.fish
 # &lt;alexforsale@yahoo.com&gt;
@@ -260,9 +259,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org18b9f24" class="outline-3">
-<h3 id="org18b9f24">02-editors.fish</h3>
-<div class="outline-text-3" id="text-org18b9f24">
+<div id="outline-container-org06d214f" class="outline-3">
+<h3 id="org06d214f">02-editors.fish</h3>
+<div class="outline-text-3" id="text-org06d214f">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/03-nix.fish
 # from https://github.com/lilyball/nix-env.fish/blob/master/conf.d/nix-env.fish
@@ -306,9 +305,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org5f8ac24" class="outline-3">
-<h3 id="org5f8ac24">03-nix.fish</h3>
-<div class="outline-text-3" id="text-org5f8ac24">
+<div id="outline-container-orgd8bc3a9" class="outline-3">
+<h3 id="orgd8bc3a9">03-nix.fish</h3>
+<div class="outline-text-3" id="text-orgd8bc3a9">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/03-nix.fish
 # from https://github.com/lilyball/nix-env.fish/blob/master/conf.d/nix-env.fish
@@ -440,9 +439,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org9cc69d9" class="outline-3">
-<h3 id="org9cc69d9">04-terminals.fish</h3>
-<div class="outline-text-3" id="text-org9cc69d9">
+<div id="outline-container-orgbf2e0ca" class="outline-3">
+<h3 id="orgbf2e0ca">04-terminals.fish</h3>
+<div class="outline-text-3" id="text-orgbf2e0ca">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/04-terminals.fish
 # ${TERMINAL} apps
@@ -457,9 +456,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org2b7832d" class="outline-3">
-<h3 id="org2b7832d">05-filemanagers.fish</h3>
-<div class="outline-text-3" id="text-org2b7832d">
+<div id="outline-container-org2b03b04" class="outline-3">
+<h3 id="org2b03b04">05-filemanagers.fish</h3>
+<div class="outline-text-3" id="text-org2b03b04">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/05-filemanagers.sh
 # filemanager configuration
@@ -474,9 +473,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org199858e" class="outline-3">
-<h3 id="org199858e">06-security.fish</h3>
-<div class="outline-text-3" id="text-org199858e">
+<div id="outline-container-orga482aa7" class="outline-3">
+<h3 id="orga482aa7">06-security.fish</h3>
+<div class="outline-text-3" id="text-orga482aa7">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/06-security.fish
 # doom emacs path
@@ -508,9 +507,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org2ac8728" class="outline-3">
-<h3 id="org2ac8728">07-browsers.fish</h3>
-<div class="outline-text-3" id="text-org2ac8728">
+<div id="outline-container-orgfc4e4e0" class="outline-3">
+<h3 id="orgfc4e4e0">07-browsers.fish</h3>
+<div class="outline-text-3" id="text-orgfc4e4e0">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/07-browser.fish
 # ${BROWSER} configuration
@@ -533,9 +532,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-orgde3e794" class="outline-3">
-<h3 id="orgde3e794">08-mail_apps.fish</h3>
-<div class="outline-text-3" id="text-orgde3e794">
+<div id="outline-container-org68fc453" class="outline-3">
+<h3 id="org68fc453">08-mail_apps.fish</h3>
+<div class="outline-text-3" id="text-org68fc453">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/08-mail_apps.sh
 # ${MAIL_APP} configuration
@@ -550,62 +549,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-orgbd8b530" class="outline-3">
-<h3 id="orgbd8b530">99-nord-theme.fish</h3>
-<div class="outline-text-3" id="text-orgbd8b530">
-<div class="org-src-container">
-<pre class="src src-fish">#!/usr/bin/env fish
-# ~/.config/fish/conf.d/99-nord-theme.fish
-# Nord Theme for fish shell
-# from https://github.com/nordtheme/nord/issues/102
-# &lt;alexforsale@yahoo.com&gt;
-
-set nord0 2e3440
-set nord1 3b4252
-set nord2 434c5e
-set nord3 4c566a
-set nord4 d8dee9
-set nord5 e5e9f0
-set nord6 eceff4
-set nord7 8fbcbb
-set nord8 88c0d0
-set nord9 81a1c1
-set nord10 5e81ac
-set nord11 bf616a
-set nord12 d08770
-set nord13 ebcb8b
-set nord14 a3be8c
-set nord15 b48ead
-
-set fish_color_normal $nord4
-set fish_color_command $nord9
-set fish_color_quote $nord14
-set fish_color_redirection $nord9
-set fish_color_end $nord6
-set fish_color_error $nord11
-set fish_color_param $nord4
-set fish_color_comment $nord3
-set fish_color_match $nord8
-set fish_color_search_match $nord8
-set fish_color_operator $nord9
-set fish_color_escape $nord13
-set fish_color_cwd $nord8
-set fish_color_autosuggestion $nord6
-set fish_color_user $nord4
-set fish_color_host $nord9
-set fish_color_cancel $nord15
-set fish_pager_color_prefix $nord13
-set fish_pager_color_completion $nord6
-set fish_pager_color_description $nord10
-set fish_pager_color_progress $nord12
-set fish_pager_color_secondary $nord1
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgb69b963" class="outline-3">
-<h3 id="orgb69b963">99-doom_emacs.fish</h3>
-<div class="outline-text-3" id="text-orgb69b963">
+<div id="outline-container-orge42b20a" class="outline-3">
+<h3 id="orge42b20a">99-doom_emacs.fish</h3>
+<div class="outline-text-3" id="text-orge42b20a">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-doom_emacs.sh
 # doom emacs path
@@ -624,9 +570,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org395b545" class="outline-3">
-<h3 id="org395b545">99-composer.fish</h3>
-<div class="outline-text-3" id="text-org395b545">
+<div id="outline-container-org22266fb" class="outline-3">
+<h3 id="org22266fb">99-composer.fish</h3>
+<div class="outline-text-3" id="text-org22266fb">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-composer.fish
 # &lt;alexforsale@yahoo.com&gt;
@@ -639,9 +585,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org396c6bb" class="outline-3">
-<h3 id="org396c6bb">99-screen.fish</h3>
-<div class="outline-text-3" id="text-org396c6bb">
+<div id="outline-container-org7a2862d" class="outline-3">
+<h3 id="org7a2862d">99-screen.fish</h3>
+<div class="outline-text-3" id="text-org7a2862d">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-screen.fish
 # configuration for GNU Screen
@@ -662,9 +608,9 @@ set -x SCREENRC $SCREENDIR/config
 </div>
 </div>
 </div>
-<div id="outline-container-org074a1da" class="outline-3">
-<h3 id="org074a1da">99-fsharp.fish</h3>
-<div class="outline-text-3" id="text-org074a1da">
+<div id="outline-container-org7b8506c" class="outline-3">
+<h3 id="org7b8506c">99-fsharp.fish</h3>
+<div class="outline-text-3" id="text-org7b8506c">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-fsharp.fish
 # configuration for F#
@@ -678,9 +624,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org72a6f09" class="outline-3">
-<h3 id="org72a6f09">99-elinks.fish</h3>
-<div class="outline-text-3" id="text-org72a6f09">
+<div id="outline-container-org2b0f2ca" class="outline-3">
+<h3 id="org2b0f2ca">99-elinks.fish</h3>
+<div class="outline-text-3" id="text-org2b0f2ca">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-elinks.fish
 # configuration for elinks
@@ -699,9 +645,9 @@ set -x ELINKS_CONFDIR $XDG_CONFIG_HOME/elinks
 </div>
 </div>
 </div>
-<div id="outline-container-orgd06cb63" class="outline-3">
-<h3 id="orgd06cb63">99-ccache.fish</h3>
-<div class="outline-text-3" id="text-orgd06cb63">
+<div id="outline-container-orgfc67e95" class="outline-3">
+<h3 id="orgfc67e95">99-ccache.fish</h3>
+<div class="outline-text-3" id="text-orgfc67e95">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-ccache.fish
 # configuration for ccache
@@ -721,9 +667,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org30ed234" class="outline-3">
-<h3 id="org30ed234">99-ghcup.fish</h3>
-<div class="outline-text-3" id="text-org30ed234">
+<div id="outline-container-orgab4c147" class="outline-3">
+<h3 id="orgab4c147">99-ghcup.fish</h3>
+<div class="outline-text-3" id="text-orgab4c147">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-ghcup.fish
 # ghcup configuration
@@ -737,9 +683,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org0b86c84" class="outline-3">
-<h3 id="org0b86c84">99-cargo.fish</h3>
-<div class="outline-text-3" id="text-org0b86c84">
+<div id="outline-container-orgf529208" class="outline-3">
+<h3 id="orgf529208">99-cargo.fish</h3>
+<div class="outline-text-3" id="text-orgf529208">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-cargo.fish
 # cargo configuration
@@ -753,9 +699,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-org19f5b4a" class="outline-3">
-<h3 id="org19f5b4a">99-ruby.fish</h3>
-<div class="outline-text-3" id="text-org19f5b4a">
+<div id="outline-container-org67a2a34" class="outline-3">
+<h3 id="org67a2a34">99-ruby.fish</h3>
+<div class="outline-text-3" id="text-org67a2a34">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-ruby.fish
 # ruby configuration
@@ -769,9 +715,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-orge22ff05" class="outline-3">
-<h3 id="orge22ff05">99-go.fish</h3>
-<div class="outline-text-3" id="text-orge22ff05">
+<div id="outline-container-orgde3672b" class="outline-3">
+<h3 id="orgde3672b">99-go.fish</h3>
+<div class="outline-text-3" id="text-orgde3672b">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-go.fish
 # $GOPATH configuration
@@ -787,9 +733,9 @@ end
 </div>
 </div>
 
-<div id="outline-container-orgd9c232b" class="outline-3">
-<h3 id="orgd9c232b">99-virtualenvwrapper.fish</h3>
-<div class="outline-text-3" id="text-orgd9c232b">
+<div id="outline-container-org63abdc5" class="outline-3">
+<h3 id="org63abdc5">99-virtualenvwrapper.fish</h3>
+<div class="outline-text-3" id="text-org63abdc5">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-virtualenvwrapper.fish
 # $GOPATH configuration
@@ -804,9 +750,9 @@ exec bash -c "source /usr/bin/virtualenvwrapper.sh"
 </div>
 </div>
 
-<div id="outline-container-org17e4fcd" class="outline-3">
-<h3 id="org17e4fcd">99-python.fish</h3>
-<div class="outline-text-3" id="text-org17e4fcd">
+<div id="outline-container-orga07b871" class="outline-3">
+<h3 id="orga07b871">99-python.fish</h3>
+<div class="outline-text-3" id="text-orga07b871">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-python.fish
 # Python configuration
@@ -825,9 +771,9 @@ end
 </div>
 </div>
 
-<div id="outline-container-org1d99fb8" class="outline-3">
-<h3 id="org1d99fb8">99-nano.fish</h3>
-<div class="outline-text-3" id="text-org1d99fb8">
+<div id="outline-container-org7329488" class="outline-3">
+<h3 id="org7329488">99-nano.fish</h3>
+<div class="outline-text-3" id="text-org7329488">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-nano.fish
 # GNU Nano configuration
@@ -851,10 +797,9 @@ end
 </div>
 </div>
 
-
-<div id="outline-container-org44bf53f" class="outline-3">
-<h3 id="org44bf53f">99-emacs_vterm.fish</h3>
-<div class="outline-text-3" id="text-org44bf53f">
+<div id="outline-container-org2078e4d" class="outline-3">
+<h3 id="org2078e4d">99-emacs_vterm.fish</h3>
+<div class="outline-text-3" id="text-org2078e4d">
 <div class="org-src-container">
 <pre class="src src-fish"># ~/.config/fish/conf.d/99-emacs-vterm.sh
 # https://github.com/akermu/emacs-libvterm
@@ -921,13 +866,13 @@ end
 </div>
 </div>
 
-<div id="outline-container-org20ec2c3" class="outline-2">
-<h2 id="org20ec2c3">~/.config/fish/functions</h2>
-<div class="outline-text-2" id="text-org20ec2c3">
+<div id="outline-container-orged420fc" class="outline-2">
+<h2 id="orged420fc">~/.config/fish/functions</h2>
+<div class="outline-text-2" id="text-orged420fc">
 </div>
-<div id="outline-container-org9828fd1" class="outline-3">
-<h3 id="org9828fd1">fish_greeting</h3>
-<div class="outline-text-3" id="text-org9828fd1">
+<div id="outline-container-org6224ff3" class="outline-3">
+<h3 id="org6224ff3">fish_greeting</h3>
+<div class="outline-text-3" id="text-org6224ff3">
 <div class="org-src-container">
 <pre class="src src-fish">function fish_greeting
     echo "Welcome to "(fish --version)", the friendly interactive shell"
@@ -956,7 +901,7 @@ This is basically the default greetings, the only change is I've added the versi
 <div id="postamble" class="status">
 <p class="date">Date: 2024-11-05 Tue 00:00</p>
 <p class="author">Author: Kristian Alexander P</p>
-<p class="date">Created: 2024-11-06 Wed 12:50</p>
+<p class="date">Created: 2024-11-06 Wed 14:07</p>
 </div>
 </body>
 </html>
